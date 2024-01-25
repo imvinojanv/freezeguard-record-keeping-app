@@ -74,3 +74,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Hide the Clerk batch in Signin and Signup */
+.cl-internal-b3fm6y {
+  display: none !important;
+}
+
+/* Hide the Clerk logo from UserButton */
+.cl-internal-uyu30o {
+  display: none !important;
+}
+
+.cl-internal-1xpzc82 {
+  font-size: 14px;
+}
+
+.cl-internal-17bz5n6 {
+  opacity: 0.6;
+}
