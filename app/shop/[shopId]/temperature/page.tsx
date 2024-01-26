@@ -22,18 +22,20 @@ const TemperaturePage = async () => {
     <section className="px-4 md:px-6">
       <div className="mt-8 flex flex-col">
         <h1 className="text-slate-900 text-2xl font-bold">Hello, {user?.firstName} 👋</h1>
-        <p className="text-slate-500 text-sm mt-0.5">Today is {dayOfWeekName}, {dateString}</p>
+        <p className="text-slate-500 text-base mt-0.5">Today is {dayOfWeekName}. {dateString}</p>
       </div>
-      
-      <div className="mt-12 w-full flex flex-row justify-between items-end">
-        <div className="flex flex-row items-center gap-4">
-          <div className="w-10 h-10 bg-slate-200 flex justify-center items-center rounded-md">
-            <ThermometerSnowflake 
-              size={28}
-              className="text-slate-700"
-            />
-          </div>
-          <h1 className="text-slate-900 text-xl font-semibold">Temperature</h1>
+
+      <div className="mt-12 w-full flex flex-row justify-between items-center">
+        <div className="flex items-center gap-x-3">
+            <div className="bg-slate-200 p-3 w-fit rounded-md max-lg:hidden">
+                <ThermometerSnowflake className="h-8 w-8 text-slate-700" />
+            </div>
+            <div>
+                <h2 className="text-xl md:text-[22px] font-semibold">Temperature</h2>
+                <p className="text-sm text-slate-500">
+                    Measure the temperature
+                </p>
+            </div>
         </div>
         <Button
           className="flex gap-2 pr-5"
