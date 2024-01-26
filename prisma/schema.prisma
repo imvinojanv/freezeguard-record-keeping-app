@@ -1,0 +1,75 @@
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  usedId String @id
+  email String @db.Text
+  name String @db.Text
+  imageUrl String @db.Text
+  isVerified Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Shop {
+  id String @id @default(uuid())
+  userId String
+  name String @db.Text
+  location String @db.Text
+
+  temperatures Temperature[]         // Temperature to Shop relation
+  refusalRecords RefusalRecord[]     // RefusalRecords to Shop relation
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Temperature {
+  id String @id @default(uuid())
+  userId String
+  temperature Float
+
+  shopId String
+  shop Shop @relation(fields: [shopId], references: [id], onDelete: Cascade)
+
+  deviceId String
+  device Device @relation(fields: [deviceId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([shopId])
+  @@index([deviceId])
+}
+
+model Device {
+  id String @id @default(uuid())
+  name String @db.Text
+  shopId String
+
+  temperatures Temperature[]      // Temperature to Device relation
+}
+
+model RefusalRecord {
+  id String @id @default(uuid())
+  userId String
+  product String @db.Text
+  isIdChecked Boolean @default(true)
+  comments String @db.Text
+
+  shopId String
+  shop Shop @relation(fields: [shopId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([shopId])
+}
