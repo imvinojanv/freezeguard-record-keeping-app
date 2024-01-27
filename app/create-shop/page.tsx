@@ -2,24 +2,24 @@
 
 import * as z from 'zod';
 import axios from 'axios';
+import Link from 'next/link';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import Link from 'next/link';
+import { Loader2, Zap } from 'lucide-react';
 
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormLabel,
     FormMessage,
     FormItem,
 } from "@/components/ui/form";
+import { cn } from '@/lib/utils';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Loader2, Zap } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useToast } from '@/components/ui/use-toast';
 
 const formSchema = z.object({
     name: z.string().min(1, {
@@ -31,6 +31,7 @@ const formSchema = z.object({
 });
 
 const CreateShopPage = () => {
+    const { toast } = useToast();
     const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -44,7 +45,30 @@ const CreateShopPage = () => {
     const { isSubmitting, isValid } = form.formState;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        
+        try {
+            const response = await axios.post("/api/shops", values);
+            router.push(`/shop/${response.data.id}/temperature`);
+            toast({
+                title: "Shop Created!",
+                variant: 'success',
+                description: (
+                    <p className='text-slate-500'>Please wait to redirect to the dashboard</p>
+                ),
+            });
+
+        } catch (error: any) {
+            toast({
+                title: "⚠️ Something went wrong 👎",
+                variant: 'error',
+                description: (
+                    <div className='mt-2 bg-slate-200 py-2 px-3 md:w-[336px] rounded-md'>
+                        <code className="text-slate-800">
+                            ERROR: {error.message}
+                        </code>
+                    </div>
+                ),
+            });
+        }
     }
 
     return (
