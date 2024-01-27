@@ -5,6 +5,8 @@ import SidebarRoutes from "./sidebar-routes";
 
 const Sidebar = async () => {
     const user = await currentUser();
+    
+    const userImg: string = user?.hasImage ? user.imageUrl : '/user.svg'
 
     return (
         <div className="h-full py-8">
@@ -21,7 +23,7 @@ const Sidebar = async () => {
                     <div>
                         <Image
                             // src="/user.png"
-                            src={user?.imageUrl ? user?.imageUrl : '/user.png'}
+                            src={userImg}
                             alt="user"
                             height={150}
                             width={150}

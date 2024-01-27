@@ -39,6 +39,7 @@ const SidebarRoutes = () => {
         <div className="flex flex-col space-y-2">
             {sideRoutes.map((route) => (
                 <Link
+                    key={route.href}
                     href={`/shop/${shopId}${route.href}`}
                     className={cn(
                         "w-full group px-6 py-3 flex flex-row gap-4 cursor-pointer rounded-lg items-center transition bg-white hover:bg-slate-100",

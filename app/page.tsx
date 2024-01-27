@@ -1,10 +1,31 @@
-import { ExternalLink, MapPin, Plus, ShoppingBag, ThermometerSnowflake } from "lucide-react";
+import Link from "next/link";
+import { Plus, ShoppingBag } from "lucide-react";
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs";
 
+import { db } from "@/lib/db";
 import HomeNavbar from "@/components/home-navbar";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import ShopsList from "@/components/shops-list";
 
-export default function Home() {
+const Home = async () => {
+  const { userId } = auth();
+
+  if (!userId) {
+    return redirect("/");
+  }
+
+  const shops = await db.shop.findMany({
+    select: {
+      id: true,
+      name: true,
+      location: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  
   return (
     <section className="w-full h-full">
       <HomeNavbar />
@@ -32,21 +53,10 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="w-full mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Link href=''>
-            <div className="group flex flex-col p-5 md:px-6 md:py-5 gap-4 bg-slate-100 rounded-xl border hover:border-slate-400">
-              <div className="flex flex-row justify-between items-center">
-                <h2 className="text-slate-800 text-lg font-medium">Shop Name</h2>
-                <ExternalLink className="w-5 h-5 text-slate-600 opacity-0 group-hover:opacity-100" />
-              </div>
-              <div className="flex flex-row gap-1 items-center">
-                <MapPin className="w-5 h-5 text-slate-400" />
-                <p className="text-slate-500 text-sm">London, United Kingdom</p>
-              </div>
-            </div>
-          </Link>
-        </div>
+        <ShopsList shops={shops} />
       </div>
     </section>
   );
 }
+
+export default Home;

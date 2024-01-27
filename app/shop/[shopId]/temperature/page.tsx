@@ -1,9 +1,16 @@
-import { Button } from "@/components/ui/button"
-import { currentUser } from "@clerk/nextjs"
-import { Plus, ThermometerSnowflake } from "lucide-react"
+import { currentUser } from "@clerk/nextjs";
+import { Plus, ThermometerSnowflake } from "lucide-react";
+
+import TemperatureMachine from "@/components/temperature-machine";
+import { Button } from "@/components/ui/button";
+import { db } from "@/lib/db";
 
 
-const TemperaturePage = async () => {
+const TemperaturePage = async ({
+  params
+}: {
+  params: { shopId: string }
+}) => {
   const user = await currentUser();
 
   const today = new Date();
@@ -18,6 +25,14 @@ const TemperaturePage = async () => {
   };
   const dateString = today.toLocaleDateString('en-US', options);
 
+  const machines = await db.machine.findMany({
+    select: {
+      id: true,
+      name: true,
+      type: true,
+    },
+  });
+
   return (
     <section className="px-4 md:px-6">
       <div className="mt-8 flex flex-col">
@@ -25,7 +40,12 @@ const TemperaturePage = async () => {
         <p className="text-slate-500 text-base mt-0.5">Today is {dayOfWeekName}. {dateString}</p>
       </div>
 
-      <div className="mt-12 w-full flex flex-row justify-between items-center">
+      <TemperatureMachine 
+        initialData={machines}
+        shopId={params.shopId}
+      />
+
+      <div className="mt-16 w-full flex flex-row justify-between items-center">
         <div className="flex items-center gap-x-3">
             <div className="bg-slate-200 p-3 w-fit rounded-md max-lg:hidden">
                 <ThermometerSnowflake className="h-8 w-8 text-slate-700" />

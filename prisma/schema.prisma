@@ -41,23 +41,23 @@ model Temperature {
   shopId String
   shop Shop @relation(fields: [shopId], references: [id], onDelete: Cascade)
 
-  deviceId String
-  device Device @relation(fields: [deviceId], references: [id])
+  machineId String
+  machine Machine @relation(fields: [machineId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([shopId])
-  @@index([deviceId])
+  @@index([machineId])
 }
 
-model Device {
+model Machine {
   id String @id @default(uuid())
   name String @db.Text
   type String @db.Text
   shopId String
 
-  temperatures Temperature[]      // Temperature to Device relation
+  temperatures Temperature[]      // Temperature to Machine relation
 }
 
 model RefusalRecord {
