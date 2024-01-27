@@ -36,6 +36,7 @@ model Temperature {
   id String @id @default(uuid())
   userId String
   temperature Float
+  isFromDelivery Boolean @default(false)
 
   shopId String
   shop Shop @relation(fields: [shopId], references: [id], onDelete: Cascade)
@@ -53,6 +54,7 @@ model Temperature {
 model Device {
   id String @id @default(uuid())
   name String @db.Text
+  type String @db.Text
   shopId String
 
   temperatures Temperature[]      // Temperature to Device relation
