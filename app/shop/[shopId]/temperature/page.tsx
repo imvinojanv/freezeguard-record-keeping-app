@@ -4,6 +4,7 @@ import { Plus, ThermometerSnowflake } from "lucide-react";
 import TemperatureMachine from "@/components/temperature-machine";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
+import AddTemperature from "@/components/add-temperature";
 
 
 const TemperaturePage = async ({
@@ -57,12 +58,13 @@ const TemperaturePage = async ({
                 </p>
             </div>
         </div>
-        <Button
-          className="flex gap-2 pr-5"
-        >
-          <Plus className="w-5 h-5" />
-          Add new
-        </Button>
+        <AddTemperature 
+          shopId={params.shopId}
+          machines={machines.map((category) => ({
+            label: category.name,
+            value: category.id
+          }))}
+        />
       </div>
     </section>
   )
