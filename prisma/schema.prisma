@@ -35,6 +35,7 @@ model Shop {
 model Temperature {
   id String @id @default(uuid())
   userId String
+  userName String? @db.Text
   temperature Float
   isFromDelivery Boolean @default(false)
 

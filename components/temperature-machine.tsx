@@ -67,6 +67,7 @@ const TemperatureMachine = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             await axios.post(`/api/shops/${shopId}/machines`, values);
+            form.reset();
             toggleEdit();
             router.refresh();
         } catch (error: any) {
