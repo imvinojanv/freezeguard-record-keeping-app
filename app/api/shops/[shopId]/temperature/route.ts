@@ -9,7 +9,15 @@ export async function POST(
 ) {
     try {
         const user = await currentUser();
-        const { temperature, isFromDelivery, machineId } = await req.json();
+        const { 
+            temperature, 
+            isFromDelivery, 
+            machineId, 
+            date, 
+            time 
+        } = await req.json();
+        const formattedDate = date.split('T')[0];
+        console.log(formattedDate);
 
         if (!user?.id) {
             return new NextResponse("Unauthorized", { status: 401 });
@@ -30,8 +38,10 @@ export async function POST(
                 userId: user.id,
                 userName: user.firstName,
                 temperature,
-                isFromDelivery,
                 machineId,
+                date: formattedDate,
+                time,
+                isFromDelivery,
                 shopId: params.shopId,
             }
         });

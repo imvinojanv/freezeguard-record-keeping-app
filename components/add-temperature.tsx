@@ -3,7 +3,7 @@
 import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check, Loader2, Plus, ThermometerSnowflake } from "lucide-react";
@@ -46,8 +46,10 @@ interface AddTemperatureProps {
 
 const formSchema = z.object({
     temperature: z.coerce.number(),
-    isFromDelivery: z.boolean().default(false),
     machineId: z.string().min(1),
+    date: z.date(),
+    time: z.string().min(1),
+    isFromDelivery: z.boolean().default(false),
 });
 
 const AddTemperature = ({
@@ -63,8 +65,10 @@ const AddTemperature = ({
         resolver: zodResolver(formSchema),
         defaultValues: {
             temperature: undefined,
-            isFromDelivery: false,
             machineId: "",
+            date: undefined,
+            time: "",
+            isFromDelivery: false,
         },
     });
 
@@ -94,7 +98,7 @@ const AddTemperature = ({
     return (
         <Dialog open={isOpen}>
             <DialogTrigger asChild>
-                <Button className="flex gap-2 pr-5" onClick={() =>setIsOpen(true)}>
+                <Button className="flex gap-2 pr-5" onClick={() => setIsOpen(true)}>
                     <Plus className="w-5 h-5" />
                     Add new
                 </Button>
@@ -160,6 +164,56 @@ const AddTemperature = ({
                                     </FormItem>
                                 )}
                             />
+                            <div className="w-full">
+                                <FormLabel className="text-base">
+                                    Date & Time
+                                </FormLabel>
+                                <div className="mt-2 w-full flex gap-4">
+                                    <FormField
+                                        control={form.control}
+                                        name="date"
+                                        render={({ field }: { field: FieldValues['fields']['date'] }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <Input
+                                                        type="date"
+                                                        disabled={isSubmitting}
+                                                        placeholder="e.g. '-17°C'"
+                                                        {...field}
+                                                        value={field.value instanceof Date ? field.value.toISOString().split('T')[0] : ''}
+                                                        onChange={(e) => {
+                                                            const selectedDate = new Date(e.target.value);
+                                                            form.setValue('date', selectedDate, { shouldValidate: true, shouldDirty: true });
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="time"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                    <FormControl>
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Select time" />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        <SelectItem value="morning">Morning</SelectItem>
+                                                        <SelectItem value="noon">Noon</SelectItem>
+                                                        <SelectItem value="Evening">Evening</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                            </div>
                             <FormField
                                 control={form.control}
                                 name="isFromDelivery"
@@ -185,7 +239,7 @@ const AddTemperature = ({
                         </div>
                         <DialogFooter>
                             <div className="mt-4 mb-2 flex gap-4">
-                                <Button variant='secondary' className="flex gap-2 pr-5" onClick={() =>setIsOpen(false)}>
+                                <Button variant='secondary' className="flex gap-2 pr-5" onClick={() => setIsOpen(false)}>
                                     Cancel
                                 </Button>
                                 <Button

@@ -11,7 +11,8 @@ generator client {
 model User {
   usedId String @id
   email String @db.Text
-  name String @db.Text
+  firstName String @db.Text
+  lastName String? @db.Text
   imageUrl String @db.Text
   isVerified Boolean @default(false)
 
@@ -38,6 +39,8 @@ model Temperature {
   userName String? @db.Text
   temperature Float
   isFromDelivery Boolean @default(false)
+  date String @db.Text
+  time String @db.Text
 
   shopId String
   shop Shop @relation(fields: [shopId], references: [id], onDelete: Cascade)
@@ -45,7 +48,6 @@ model Temperature {
   machineId String
   machine Machine @relation(fields: [machineId], references: [id])
 
-  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([shopId])
