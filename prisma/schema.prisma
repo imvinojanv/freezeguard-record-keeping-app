@@ -9,11 +9,11 @@ generator client {
 }
 
 model User {
-  usedId String @id
+  userId String @id
   email String @db.Text
-  firstName String @db.Text
+  firstName String? @db.Text
   lastName String? @db.Text
-  imageUrl String @db.Text
+  imageUrl String? @db.Text
   isVerified Boolean @default(false)
 
   createdAt DateTime @default(now())
