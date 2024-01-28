@@ -48,6 +48,7 @@ model Temperature {
   machineId String
   machine Machine @relation(fields: [machineId], references: [id])
 
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([shopId])

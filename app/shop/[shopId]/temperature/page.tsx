@@ -1,11 +1,13 @@
 import { currentUser } from "@clerk/nextjs";
-import { Plus, ThermometerSnowflake } from "lucide-react";
+import { ThermometerSnowflake } from "lucide-react";
+import { redirect } from "next/navigation";
 
-import TemperatureMachine from "@/components/temperature-machine";
-import { Button } from "@/components/ui/button";
+import { greetingDay } from "@/actions/greeting-day";
 import { db } from "@/lib/db";
+import TemperatureMachine from "@/components/temperature-machine";
 import AddTemperature from "@/components/add-temperature";
-
+import { DataTable } from "./_components/data-table";
+import { columns } from "./_components/columns";
 
 const TemperaturePage = async ({
   params
@@ -14,24 +16,40 @@ const TemperaturePage = async ({
 }) => {
   const user = await currentUser();
 
-  const today = new Date();
-  const dayOfWeek = today.getDay();
-  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const dayOfWeekName = daysOfWeek[dayOfWeek];
+  if (!user) {
+    return redirect("/");
+  }
 
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  };
-  const dateString = today.toLocaleDateString('en-US', options);
+  // Get Today
+  const { dayOfWeekName, dateString } = greetingDay();
 
+  // Fetch the mechine data
   const machines = await db.machine.findMany({
+    where: {
+      shopId: params.shopId
+    },
     select: {
       id: true,
       name: true,
       type: true,
     },
+  });
+
+  // Fetch the temperature
+  const temperature = await db.temperature.findMany({
+    where: {
+      shopId: params.shopId
+    },
+    include: {
+      machine: {
+        select: {
+          name: true
+        }
+      }
+    },
+    orderBy: {
+      createdAt: "desc"
+    }
   });
 
   return (
@@ -65,6 +83,10 @@ const TemperaturePage = async ({
             value: category.id
           }))}
         />
+      </div>
+
+      <div className="mt-8">
+        <DataTable columns={columns} data={temperature} />
       </div>
     </section>
   )

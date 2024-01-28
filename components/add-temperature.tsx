@@ -77,7 +77,7 @@ const AddTemperature = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             await axios.post(`/api/shops/${shopId}/temperature`, values);
-            // router.refresh();
+            router.refresh();
             form.reset();
             setIsOpen(false);
         } catch (error: any) {

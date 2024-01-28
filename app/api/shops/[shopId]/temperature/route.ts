@@ -17,7 +17,6 @@ export async function POST(
             time 
         } = await req.json();
         const formattedDate = date.split('T')[0];
-        console.log(formattedDate);
 
         if (!user?.id) {
             return new NextResponse("Unauthorized", { status: 401 });
