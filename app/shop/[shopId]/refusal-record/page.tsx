@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 
 const RefusalRecordPage = () => {
   return (
-    <section className="px-4 md:px-6 mt-12">
+    <section className="px-4 md:px-6 mt-10">
       <div className="w-full flex flex-row justify-between items-center">
         <div className="flex items-center gap-x-3">
             <div className="bg-slate-200 p-3 w-fit rounded-md max-lg:hidden">
