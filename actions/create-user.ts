@@ -5,13 +5,15 @@ interface CreateUserProps {
     email: string;
     firstName: string | null;
     lastName: string | null;
+    profileImg: string | null;
 }
 
 export const createUser = async ({
     userId,
     email,
     firstName,
-    lastName
+    lastName,
+    profileImg
 }: CreateUserProps) => {
     try {
         const user = await db.user.findUnique({
@@ -27,6 +29,7 @@ export const createUser = async ({
                     email,
                     firstName,
                     lastName,
+                    profileImg
                 }
             })
             console.log(`New user ${email} is created successfully`);

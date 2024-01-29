@@ -12,14 +12,17 @@ const ShopLayout = async ({
     params: { shopId: string };
 }) => {
     const user = await currentUser();
-
+    
+    const profileImg: string | null = user?.hasImage ? user.imageUrl : null;
+    
     // Create a new user
     if (user?.id) {
         await createUser({
             userId: user?.id,
             email: user?.emailAddresses[0].emailAddress,
             firstName: user?.firstName,
-            lastName: user?.lastName
+            lastName: user?.lastName,
+            profileImg: profileImg
         });
     }
 
