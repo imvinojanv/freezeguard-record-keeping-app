@@ -1,6 +1,6 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton"
 
-const EmployeeIdLoading = () => {
+const ProfileLoading = () => {
     return (
         <div className="px-4 md:px-6 mb-10">
             <div className="mt-12 flex gap-x-3">
@@ -22,4 +22,4 @@ const EmployeeIdLoading = () => {
     )
 }
 
-export default EmployeeIdLoading;
+export default ProfileLoading

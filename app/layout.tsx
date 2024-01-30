@@ -10,19 +10,18 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "FreezeGuard - The Record Keeping Application",
   description: "The Record Keeping Application",
-  // other: {
-  //   'theme-color': '#ffffff',
-  //   'color-scheme': 'light only',
-  //   "keywords": "GPA, Academic Performance Tracker, undergraduates in Sri Lanka, GPA calculator, University",
-  //   "twitter:image": 'https://ik.imagekit.io/vinojan/Personal/gplus-landing-page.png',
-  //   "twitter:card": "summary_large_image",
-  //   "og:title": "G Plus: Academic Performance Tracker",
-  //   "og:description": "The Academic Performance Tracker Application for the undergraduates in Sri Lanka",
-  //   "og:url": "https://gplus.gov.lk",
-  //   "og:image": 'https://ik.imagekit.io/vinojan/Personal/gplus-launch-poster.jpg',
-  //   "og:type": "website",
-  //   "og:site_name": "G Plus: Academic Performance Tracker"
-  // }
+  other: {
+    'theme-color': '#ffffff',
+    'color-scheme': 'light only',
+    "twitter:image": 'https://ik.imagekit.io/vinojan/Personal/gplus-landing-page.png',
+    "twitter:card": "summary_large_image",
+    "og:title": "FreezeGuard - The Record Keeping Application",
+    "og:description": "The Record Keeping Application for FreezeGuard",
+    "og:url": "https://freezeguard.uk/",
+    "og:image": 'https://utfs.io/f/6be27557-6803-48dc-b643-d59bcb9150eb-widiox.png',
+    "og:type": "website",
+    "og:site_name": "FreezeGuard - The Record Keeping Application"
+  }
 };
 
 export default function RootLayout({
