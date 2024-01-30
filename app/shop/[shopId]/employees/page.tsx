@@ -1,6 +1,7 @@
+import { Users } from "lucide-react";
+
+import { db } from "@/lib/db";
 import EmployeesTable from "@/components/employees-table";
-import { db } from "@/lib/db"
-import { Users } from "lucide-react"
 
 const EmployeesPage = async ({
   params
@@ -13,7 +14,8 @@ const EmployeesPage = async ({
       email: true,
       firstName: true,
       lastName: true,
-      imageUrl: true,
+      profileImg: true,
+      attachmentUrl: true,
       isVerified: true,
     },
     orderBy: {
@@ -22,7 +24,7 @@ const EmployeesPage = async ({
   });
   
   return (
-    <section className="px-4 md:px-6 mt-10">
+    <section className="px-4 md:px-6 my-10">
       <div className="flex items-center gap-x-3">
         <div className="bg-slate-200 p-3 w-fit rounded-md max-lg:hidden">
           <Users className="h-8 w-8 text-slate-700" />

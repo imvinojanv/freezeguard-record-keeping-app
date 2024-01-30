@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { db } from "@/lib/db";
 import EmployeeVerification from "./_components/employee-verification";
 import EmployeeBanner from "./_components/employee-banner";
+import DownloadButton from "@/components/download-button";
 
 const EmployeeIdPage = async ({
     params
@@ -38,14 +39,14 @@ const EmployeeIdPage = async ({
 
                 <div className="w-full md:max-w-2xl p-4 bg-slate-100 border rounded-xl">
                     <div className="flex flex-row justify-between items-end">
-                        <Image 
+                        <Image
                             src={employee?.profileImg ? employee?.profileImg : '/user.svg'}
                             alt={employee?.firstName || ''}
                             height={120}
                             width={120}
                             className="max-sm:w-24 max-sm:h-24 rounded-lg border"
                         />
-                        <EmployeeVerification 
+                        <EmployeeVerification
                             shopId={params.shopId}
                             employeeId={params.employeeId}
                             isVerified={employee?.isVerified}
@@ -57,22 +58,22 @@ const EmployeeIdPage = async ({
                             <h3 className="w-1/3 font-medium text-slate-900">Name</h3>
                             <h3 className="text-slate-500">{employee?.firstName}{" "}{employee?.lastName}</h3>
                         </div>
-                        <hr/>
+                        <hr />
                         <div className="flex">
                             <h3 className="w-1/3 font-medium text-slate-900">ID</h3>
                             <h3 className="text-slate-500 line-clamp-1">{employee?.userId}</h3>
                         </div>
-                        <hr/>
+                        <hr />
                         <div className="flex">
                             <h3 className="w-1/3 font-medium text-slate-900">Email</h3>
                             <h3 className="text-slate-500 line-clamp-1">{employee?.email}</h3>
                         </div>
-                        <hr/>
+                        <hr />
                         <div className="flex">
                             <h3 className="w-1/3 font-medium text-slate-900">Role</h3>
                             <h3 className="text-slate-500">{employee?.email === 'dassslimited@gmail.com' ? 'Admin' : 'Employee'}</h3>
                         </div>
-                        <hr/>
+                        <hr />
                         <div className="flex">
                             <h3 className="w-1/3 font-medium text-slate-900">Status</h3>
                             <h3 className="text-slate-500 italic">
@@ -84,9 +85,32 @@ const EmployeeIdPage = async ({
                     </div>
                 </div>
 
-                <div className="mt-6 w-full md:max-w-2xl p-4 bg-slate-100 border rounded-xl">
-                    <WineOff />
-                    <h1 className="text-lg font-medium text-slate-900">Alcohol Test</h1>
+                <div className="mt-6 w-full md:max-w-2xl border bg-slate-100 rounded-xl px-1 pt-1.5 pb-1 md:px-4 md:pt-2 md:pb-4">
+                    <div className="px-3 md:text-lg font-medium flex items-center justify-between">
+                        Alcohol Test
+                        {employee?.attachmentUrl &&
+                            <DownloadButton url={employee?.attachmentUrl} />
+                        }
+                    </div>
+                    <div>
+                        {!employee?.attachmentUrl ? (
+                            <div className="mt-2 flex flex-col items-center justify-center h-60 bg-slate-200 rounded-md">
+                                <WineOff className="h-8 w-8 text-slate-500" />
+                                <p className="mt-2 text-slate-500 text-sm">Alcohol test is not updated yet!</p>
+                            </div>
+                        ) : (
+                            <div>
+                                <div className="relative aspect-video mt-2">
+                                    <Image
+                                        alt="Upload"
+                                        fill
+                                        className="object-cover rounded-md"
+                                        src={employee?.attachmentUrl}
+                                    />
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </section>

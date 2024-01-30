@@ -169,49 +169,53 @@ const AddTemperature = ({
                                     Date & Time
                                 </FormLabel>
                                 <div className="mt-2 w-full flex gap-4">
-                                    <FormField
-                                        control={form.control}
-                                        name="date"
-                                        render={({ field }: { field: FieldValues['fields']['date'] }) => (
-                                            <FormItem>
-                                                <FormControl>
-                                                    <Input
-                                                        type="date"
-                                                        disabled={isSubmitting}
-                                                        placeholder="e.g. '-17°C'"
-                                                        {...field}
-                                                        value={field.value instanceof Date ? field.value.toISOString().split('T')[0] : ''}
-                                                        onChange={(e) => {
-                                                            const selectedDate = new Date(e.target.value);
-                                                            form.setValue('date', selectedDate, { shouldValidate: true, shouldDirty: true });
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="time"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <div className="w-3/5">
+                                        <FormField
+                                            control={form.control}
+                                            name="date"
+                                            render={({ field }: { field: FieldValues['fields']['date'] }) => (
+                                                <FormItem>
                                                     <FormControl>
-                                                        <SelectTrigger>
-                                                            <SelectValue placeholder="Select time" />
-                                                        </SelectTrigger>
+                                                        <Input
+                                                            type="date"
+                                                            disabled={isSubmitting}
+                                                            placeholder="e.g. '-17°C'"
+                                                            {...field}
+                                                            value={field.value instanceof Date ? field.value.toISOString().split('T')[0] : ''}
+                                                            onChange={(e) => {
+                                                                const selectedDate = new Date(e.target.value);
+                                                                form.setValue('date', selectedDate, { shouldValidate: true, shouldDirty: true });
+                                                            }}
+                                                        />
                                                     </FormControl>
-                                                    <SelectContent>
-                                                        <SelectItem value="morning">Morning</SelectItem>
-                                                        <SelectItem value="noon">Noon</SelectItem>
-                                                        <SelectItem value="Evening">Evening</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
+                                    <div className="w-2/5">
+                                        <FormField
+                                            control={form.control}
+                                            name="time"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                        <FormControl>
+                                                            <SelectTrigger>
+                                                                <SelectValue placeholder="Select time" />
+                                                            </SelectTrigger>
+                                                        </FormControl>
+                                                        <SelectContent>
+                                                            <SelectItem value="morning">Morning</SelectItem>
+                                                            <SelectItem value="noon">Noon</SelectItem>
+                                                            <SelectItem value="Evening">Evening</SelectItem>
+                                                        </SelectContent>
+                                                    </Select>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                             <FormField

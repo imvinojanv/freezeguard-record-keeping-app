@@ -1,6 +1,9 @@
 "use client"
 
-import { Trash2 } from "lucide-react";
+import { Eye, Trash2 } from "lucide-react";
+import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 import {
     Table,
@@ -10,13 +13,11 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import ConfirmModel from "./models/confirm-model";
-import { useState } from "react";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useToast } from "./ui/use-toast";
+import ConfirmModel from "@/components/models/confirm-model";
+import { useToast } from "@/components/ui/use-toast";
+import Link from "next/link";
 
 
 interface EmployeesTableProps {
@@ -25,7 +26,8 @@ interface EmployeesTableProps {
         email: string;
         firstName: string | null;
         lastName: string | null;
-        imageUrl: string | null;
+        profileImg: string | null;
+        attachmentUrl: string | null;
         isVerified: boolean;
     }[];
     shopId: string;
@@ -84,14 +86,23 @@ const EmployeesTable = ({
                             <TableCell className="font-medium">{user.firstName}{" "}{user.lastName}</TableCell>
                             <TableCell>{user.email}</TableCell>
                             <TableCell className="text-slate-500">{user.isVerified === true ? "Verified" : "Not Verified"}</TableCell>
-                            <TableCell className="flex justify-end text-right">
+                            <TableCell className="flex justify-end gap-2 text-right">
+                                <Link href={`/shop/${shopId}/employees/${user.userId}`}>
+                                    <Button 
+                                        size='sm'
+                                        variant='secondary'
+                                        className="text-slate-500 hover:text-slate-900"
+                                    >
+                                        <Eye className="w-4 h-4"/>
+                                    </Button>
+                                </Link>
                                 <ConfirmModel onConfirm={() => onDelete(user.userId)}>
                                     <Button 
                                         size='sm'
                                         disabled={isLoading}
                                         variant='outline'
                                     >
-                                        <Trash2 className="w-[18px] h-[18px] text-destructive"/>
+                                        <Trash2 className="w-4 h-4 text-destructive"/>
                                     </Button>
                                 </ConfirmModel>
                             </TableCell>

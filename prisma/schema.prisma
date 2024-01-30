@@ -9,11 +9,12 @@ generator client {
 }
 
 model User {
-  userId String @id
+  userId String @id @unique
   email String @db.Text
   firstName String? @db.Text
   lastName String? @db.Text
-  imageUrl String? @db.Text
+  profileImg String? @db.Text
+  attachmentUrl String? @db.Text
   isVerified Boolean @default(false)
 
   createdAt DateTime @default(now())
@@ -67,8 +68,13 @@ model Machine {
 model RefusalRecord {
   id String @id @default(uuid())
   userId String
+  userName String? @db.Text
+  date String @db.Text
+  time String @db.Text
   product String @db.Text
-  isIdChecked Boolean @default(true)
+  gender String @db.Text
+  age Int
+  isAskedId Boolean @default(true)
   comments String @db.Text
 
   shopId String
