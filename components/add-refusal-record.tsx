@@ -113,7 +113,7 @@ const AddRefusalRecord = ({
                         Add refusal record
                     </DialogTitle>
                     <DialogDescription>
-                        Click save when you&apos;re done.
+                        Click save when you're done.
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>

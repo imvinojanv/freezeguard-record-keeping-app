@@ -37,7 +37,7 @@ const RefusalRecordPage = async ({
             <div>
                 <h2 className="text-xl md:text-[22px] font-semibold">Refusal Record</h2>
                 <p className="text-sm text-slate-500">
-                    Say &quot;No&quot; to verified people
+                    Say "No" to verified people
                 </p>
             </div>
         </div>
