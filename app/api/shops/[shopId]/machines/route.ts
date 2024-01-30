@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 import { db } from "@/lib/db";
+import { isAdmin } from "@/lib/admin";
 
 export async function POST(
     req: Request,
@@ -12,9 +13,11 @@ export async function POST(
         const { shopId } = params;
         const { name, type } = await req.json();
 
-        if (!userId) {
-            return new NextResponse("Unautherized", { status: 401 })
-        }
+        const isAuthorized = isAdmin(userId);
+
+        if (!userId || !isAuthorized) {
+            return new NextResponse("Unauthorized", { status: 401 });
+        };
 
         const shop = await db.machine.create({
             data: {
