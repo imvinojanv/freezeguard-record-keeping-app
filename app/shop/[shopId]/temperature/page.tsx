@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 
 import { greetingDay } from "@/actions/greeting-day";
 import { db } from "@/lib/db";
+import { isAdmin } from "@/lib/admin";
 import TemperatureMachine from "@/components/temperature-machine";
 import AddTemperature from "@/components/add-temperature";
 import { Separator } from "@/components/ui/separator";
@@ -79,10 +80,12 @@ const TemperaturePage = async ({
         <p className="text-slate-500 text-base mt-0.5">Today is {dayOfWeekName}. {dateString}</p>
       </div>
 
-      <TemperatureMachine 
-        initialData={machines}
-        shopId={params.shopId}
-      />
+      {isAdmin(user?.id) &&
+        <TemperatureMachine 
+          initialData={machines}
+          shopId={params.shopId}
+        />
+      }
 
       <div className="mt-16 w-full flex flex-row justify-between items-center">
         <div className="flex items-center gap-x-3">

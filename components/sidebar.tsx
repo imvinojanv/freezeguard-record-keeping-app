@@ -3,6 +3,7 @@ import { currentUser } from "@clerk/nextjs";
 
 import SidebarRoutes from "./sidebar-routes";
 import Link from "next/link";
+import { isAdmin } from "@/lib/admin";
 
 const Sidebar = async () => {
     const user = await currentUser();
@@ -31,13 +32,15 @@ const Sidebar = async () => {
                             width={150}
                             className="rounded-full"
                         />
-                        <Image
-                            src="/admin.svg"
-                            alt=""
-                            height={36}
-                            width={36}
-                            className="absolute -mt-9 right-20 shadow-xl rounded-full"
-                        />
+                        {isAdmin(user?.id) && 
+                            <Image
+                                src="/admin.svg"
+                                alt=""
+                                height={36}
+                                width={36}
+                                className="absolute -mt-9 right-20 shadow-xl rounded-full"
+                            />
+                        }
                     </div>
                     <div className="w-full mt-4">
                         <h3 className="text-center text-slate-700 text-lg font-semibold">

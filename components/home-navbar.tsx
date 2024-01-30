@@ -32,7 +32,7 @@ const HomeNavbar = () => {
                         <Link href='/sign-up'>
                             <Button
                                 variant='outline'
-                                className="rounded-full px-6 text-base"
+                                className="rounded-full px-6 text-base max-sm:hidden"
                             >
                                 Register
                             </Button>
