@@ -1,5 +1,4 @@
 import { Users } from "lucide-react";
-import { auth } from "@clerk/nextjs";
 
 import { db } from "@/lib/db";
 import EmployeesTable from "@/components/employees-table";
@@ -9,8 +8,6 @@ const EmployeesPage = async ({
 }: {
   params: { shopId: string }
 }) => {
-  const { userId } = auth();
-
   const users = await db.user.findMany({
     select: {
       userId: true,
@@ -40,7 +37,7 @@ const EmployeesPage = async ({
         </div>
       </div>
 
-      <EmployeesTable users={users} shopId={params.shopId} myUserId={userId} />
+      <EmployeesTable users={users} shopId={params.shopId} />
     </section>
   )
 }

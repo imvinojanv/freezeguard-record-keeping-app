@@ -3,7 +3,6 @@ import { UserButton, auth } from "@clerk/nextjs";
 
 import AttachmentForm from "@/components/attachment-form";
 import { db } from "@/lib/db";
-import { isAdmin } from "@/lib/admin";
 
 const ProfilePage = async () => {
   const { userId } = auth();
@@ -55,7 +54,7 @@ const ProfilePage = async () => {
           <hr />
           <div className="flex">
             <h3 className="w-1/3 font-medium text-slate-900">Role</h3>
-            <h3 className="text-slate-500">{isAdmin(user?.userId) ? 'Admin' : 'Employee'}</h3>
+            <h3 className="text-slate-500">{user?.email === 'dassslimited@gmail.com' ? 'Admin' : 'Employee'}</h3>
           </div>
           <hr />
           <div className="flex">

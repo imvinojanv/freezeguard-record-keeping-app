@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs";
 
 import { db } from "@/lib/db";
-import { isAdmin } from "@/lib/admin";
 import HomeNavbar from "@/components/home-navbar";
 import { Button } from "@/components/ui/button";
 import ShopsList from "@/components/shops-list";
@@ -44,16 +43,14 @@ const Home = async () => {
               </p>
             </div>
           </div>
-          {isAdmin(userId) &&
-            <Link href='/create-shop'>
-              <Button
-                className="mt-2 flex gap-2 pr-5"
-              >
-                <Plus className="w-5 h-5" />
-                Create shop
-              </Button>
-            </Link>
-          }
+          <Link href='/create-shop'>
+            <Button
+              className="mt-2 flex gap-2 pr-5"
+            >
+              <Plus className="w-5 h-5" />
+              Create shop
+            </Button>
+          </Link>
         </div>
 
         {shops.length !== 0 ? 

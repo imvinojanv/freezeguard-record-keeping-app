@@ -2,11 +2,9 @@
 
 import Link from "next/link";
 import { ClipboardList, ThermometerSnowflake, User, Users } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { useAuth } from "@clerk/nextjs";
 
 import { cn } from "@/lib/utils";
-import { isAdmin } from "@/lib/admin";
+import { usePathname } from "next/navigation";
 
 const sideRoutes = [
     {
@@ -32,8 +30,6 @@ const sideRoutes = [
 ]
 
 const SidebarRoutes = () => {
-    const { userId } = useAuth();
-
     const pathname = usePathname();
     const urlPath = pathname.substring(pathname.lastIndexOf("/") + 0);      // Get last pathname index
 
@@ -47,8 +43,7 @@ const SidebarRoutes = () => {
                     href={`/shop/${shopId}${route.href}`}
                     className={cn(
                         "w-full group px-6 py-3 flex flex-row gap-4 cursor-pointer rounded-lg items-center transition bg-white hover:bg-slate-100",
-                        route.href === urlPath && "bg-slate-100",
-                        !isAdmin(userId) && (route.href === '/employees') && 'hidden'
+                        route.href === urlPath && "bg-slate-100"
                     )}
                 >
                     <route.icon

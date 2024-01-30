@@ -32,13 +32,11 @@ interface EmployeesTableProps {
         isVerified: boolean;
     }[];
     shopId: string;
-    myUserId: string | null;
 }
 
 const EmployeesTable = ({
     users,
-    shopId,
-    myUserId
+    shopId
 }: EmployeesTableProps) => {
     const router = useRouter();
     const { toast } = useToast();
@@ -90,7 +88,7 @@ const EmployeesTable = ({
                             <TableCell>{user.email}</TableCell>
                             <TableCell className="text-slate-500">{user.isVerified === true ? "Verified" : "Not Verified"}</TableCell>
                             <TableCell className="flex justify-end gap-2 text-right">
-                                <Link href={user.userId !== myUserId ? `/shop/${shopId}/employees/${user.userId}` : `/shop/${shopId}/profile`}>
+                                <Link href={`/shop/${shopId}/employees/${user.userId}`}>
                                     <Button 
                                         size='sm'
                                         variant='secondary'
