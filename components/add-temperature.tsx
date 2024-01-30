@@ -110,7 +110,7 @@ const AddTemperature = ({
                         Add temperature
                     </DialogTitle>
                     <DialogDescription>
-                        Add temperature for your machines. Click save when you're done.
+                        Add temperature for your machines. Click save when you&apos;re done.
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -156,7 +156,7 @@ const AddTemperature = ({
                                             </FormControl>
                                             <SelectContent>
                                                 {machines.map((machine) => (
-                                                    <SelectItem value={machine.value}>{machine.label}</SelectItem>
+                                                    <SelectItem key={machine.value} value={machine.value}>{machine.label}</SelectItem>
                                                 ))}
                                             </SelectContent>
                                         </Select>

@@ -85,7 +85,7 @@ const EmployeesTable = ({
                 </TableHeader>
                 <TableBody>
                     {users && users.map((user) => (
-                        <TableRow className="">
+                        <TableRow key={user.userId} className="">
                             <TableCell className="font-medium">{user.firstName}{" "}{user.lastName}</TableCell>
                             <TableCell>{user.email}</TableCell>
                             <TableCell className="text-slate-500">{user.isVerified === true ? "Verified" : "Not Verified"}</TableCell>
