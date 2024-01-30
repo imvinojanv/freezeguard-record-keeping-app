@@ -1,9 +1,10 @@
 "use client"
 
-import { Eye, Trash2 } from "lucide-react";
+import { Eye, Loader2, Trash2 } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import {
     Table,
@@ -17,7 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import ConfirmModel from "@/components/models/confirm-model";
 import { useToast } from "@/components/ui/use-toast";
-import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 
 interface EmployeesTableProps {
@@ -102,7 +103,8 @@ const EmployeesTable = ({
                                         disabled={isLoading}
                                         variant='outline'
                                     >
-                                        <Trash2 className="w-4 h-4 text-destructive"/>
+                                        <Loader2 className={cn("animate-spin w-4 h-4 hidden", isLoading && "flex")} />
+                                        <Trash2 className={cn("w-4 h-4 text-destructive", isLoading && 'hidden')}/>
                                     </Button>
                                 </ConfirmModel>
                             </TableCell>

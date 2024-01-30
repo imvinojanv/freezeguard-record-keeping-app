@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, PlusCircle } from "lucide-react";
+import { Loader2, PlusCircle, Trash2 } from "lucide-react";
 
 import {
     Form,
@@ -25,6 +25,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import ConfirmModel from "@/components/models/confirm-model";
 import { cn } from "@/lib/utils";
 
 interface TemperatureMachineProps {
@@ -63,6 +64,7 @@ const TemperatureMachine = ({
     });
 
     const { isSubmitting, isValid } = form.formState;
+    const [isLoadingDelete, setIsLoadingDelete] = useState(false);
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
@@ -82,6 +84,32 @@ const TemperatureMachine = ({
                     </div>
                 ),
             });
+        }
+    }
+
+    const onDelete = async (machineId: string) => {
+        try {
+            setIsLoadingDelete(true);
+            await axios.delete(`/api/shops/${shopId}/machines/${machineId}`);
+            router.refresh();
+            toast({
+                title: "Successfully removed machine!",
+                variant: 'success',
+            });
+        } catch (error: any) {
+            toast({
+                title: "⚠️ Something went wrong 👎",
+                variant: 'error',
+                description: (
+                    <div className='mt-2 bg-slate-200 py-2 px-3 md:w-[336px] rounded-md'>
+                        <code className="text-slate-800">
+                            ERROR: {error.message}
+                        </code>
+                    </div>
+                ),
+            });
+        } finally {
+            setIsLoadingDelete(false);
         }
     }
 
@@ -110,16 +138,24 @@ const TemperatureMachine = ({
                         {initialData ? initialData.map((machine, index) => (
                             <div
                                 key={machine.id}
-                                className="mt-2 py-3 px-4 bg-slate-500 rounded-lg flex justify-between"
+                                className="group mt-2 py-3 px-4 bg-slate-500 rounded-lg flex justify-between items-center"
                             >
                                 <h3 className="md:ml-2 text-white font-medium">{machine.name}</h3>
-                                <p className="text-white px-3 py-1 text-xs md:text-sm rounded-full bg-white/20">{machine.type.toUpperCase()}</p>
+                                <div className="flex gap-2">
+                                    <ConfirmModel onConfirm={() => onDelete(machine.id)}>
+                                        <div className="opacity-0 group-hover:opacity-100 p-1.5 rounded-full bg-white/20 hover:bg-white/60 text-slate-700 hover:text-destructive cursor-pointer transition">
+                                            <Trash2 className="w-5 h-5" />
+                                        </div>
+                                    </ConfirmModel>
+                                    <p className="text-white px-3 py-1 text-xs md:text-sm rounded-full bg-white/20 flex items-center">{machine.type.toUpperCase()}</p>
+                                </div>
                             </div>
                         )) : (
                             <p className="text-sm mt-2text-slate-500 italic">
                                 No machines available
                             </p>
                         )}
+                        <p className={cn("w-full hidden text-sm text-slate-500 text-end", isLoadingDelete && "flex")}>Deleting...</p>
                     </div>
                 )}
 
@@ -130,43 +166,47 @@ const TemperatureMachine = ({
                             className="w-full space-y-4 mt-4"
                         >
                             <div className="flex flex-col sm:flex-row gap-3">
-                                <FormField
-                                    control={form.control}
-                                    name="name"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <Input
-                                                    disabled={isSubmitting}
-                                                    placeholder="e.g. 'Freezer 1'"
-                                                    className="md:min-w-[280px] lg:min-w-[320px]"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="type"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <div className="w-3/5">
+                                    <FormField
+                                        control={form.control}
+                                        name="name"
+                                        render={({ field }) => (
+                                            <FormItem>
                                                 <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Select the machine type" />
-                                                    </SelectTrigger>
+                                                    <Input
+                                                        disabled={isSubmitting}
+                                                        placeholder="e.g. 'Freezer 1'"
+                                                        className="md:min-w-[280px] lg:min-w-[320px]"
+                                                        {...field}
+                                                    />
                                                 </FormControl>
-                                                <SelectContent>
-                                                    <SelectItem value="freezer">Freezer</SelectItem>
-                                                    <SelectItem value="chiller">Chiller</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                                <div className="w-2/5">
+                                    <FormField
+                                        control={form.control}
+                                        name="type"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                    <FormControl>
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Select the machine type" />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        <SelectItem value="freezer">Freezer</SelectItem>
+                                                        <SelectItem value="chiller">Chiller</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
                             </div>
                             <div className="flex items-center gap-x-2">
                                 <Button

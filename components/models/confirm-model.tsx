@@ -30,7 +30,7 @@ const ConfirmModel = ({
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action cannot be undone. This will permanently the employee from the system.
+                        This action cannot be undone. It will remove permanently from the system.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

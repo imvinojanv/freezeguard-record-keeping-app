@@ -3,6 +3,7 @@ import { currentUser } from "@clerk/nextjs";
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
 import { createUser } from "@/actions/create-user";
+import { db } from "@/lib/db";
 
 const ShopLayout = async ({
     children,
@@ -24,6 +25,24 @@ const ShopLayout = async ({
             lastName: user?.lastName,
             profileImg: profileImg
         });
+    };
+
+    const userFromDB = await db.user.findUnique({
+        where: {
+            userId: user?.id
+        }
+    });
+    
+    // Check and update the lates user profile
+    if (profileImg !== userFromDB?.profileImg) {
+        await db.user.update({
+            where: {
+                userId: user?.id
+            },
+            data: {
+                profileImg
+            }
+        })
     }
 
     return (

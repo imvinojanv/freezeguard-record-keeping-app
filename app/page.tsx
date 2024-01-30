@@ -53,7 +53,13 @@ const Home = async () => {
           </Link>
         </div>
 
-        <ShopsList shops={shops} />
+        {shops.length !== 0 ? 
+          <ShopsList shops={shops} />
+        : 
+          <p className="mt-20 text-slate-500 flex justify-center">
+            No shops found. Please create a shop
+          </p>
+        }
       </div>
     </section>
   );
